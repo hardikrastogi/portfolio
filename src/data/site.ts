@@ -31,6 +31,11 @@ export const about = {
   interests: ["Reading books", "Building Lego", "Badminton"],
 } as const;
 
+// Intro shown on first visit:
+//   "greeting" → Hello · Namaste · Bonjour · Hola, then a curved curtain lifts
+//   "morph"    → "HR" fades in at the centre, then flies into the navbar logo
+export const introStyle: "greeting" | "morph" = "greeting";
+
 export const navLinks = [
   { label: "Work", href: "#work" },
   { label: "About", href: "#about" },

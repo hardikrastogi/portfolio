@@ -23,10 +23,27 @@ const anton = Anton({
   subsets: ["latin"],
 });
 
+const description =
+  "Portfolio of Hardik Rastogi, a full stack developer building with React, Next.js, Node, Spring Boot and FastAPI.";
+
 export const metadata: Metadata = {
+  // Absolute base for the generated preview image and icons
+  metadataBase: new URL("https://hardikrastogi-portfolio.vercel.app"),
   title: "Hardik Rastogi — Full Stack Developer",
-  description:
-    "Portfolio of Hardik Rastogi, a full stack developer building with React, Next.js, Node, Spring Boot and FastAPI.",
+  description,
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Hardik Rastogi",
+    title: "Hardik Rastogi — Full Stack Developer",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@Hardik0087",
+    title: "Hardik Rastogi — Full Stack Developer",
+    description,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -143,10 +143,11 @@ function Contact() {
         <button
           type="button"
           onClick={copy}
-          className="group inline-flex items-center gap-3 border-b border-border pb-1 text-xl font-medium transition-colors hover:border-fg md:text-3xl"
+          className="group inline-flex max-w-full items-center gap-3 border-b border-border pb-1 text-lg font-medium transition-colors hover:border-fg sm:text-xl md:text-3xl"
         >
-          {site.email}
-          <span className="relative grid size-6 place-items-center text-muted transition-colors group-hover:text-fg md:size-7">
+          {/* break-all: lets the address wrap on very narrow phones instead of overflowing */}
+          <span className="min-w-0 break-all text-left">{site.email}</span>
+          <span className="relative grid size-6 shrink-0 place-items-center text-muted transition-colors group-hover:text-fg md:size-7">
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={copied ? "done" : "copy"}

@@ -33,18 +33,19 @@ export function Navbar() {
         <a
           id="nav-logo"
           href="#top"
-          className={`mr-2 font-mono text-sm font-semibold tracking-tight ${landed ? "" : "opacity-0"}`}
+          className={`mr-1 font-mono text-sm sm:mr-2 font-semibold tracking-tight ${landed ? "" : "opacity-0"}`}
           aria-label="Back to top"
         >
           {site.initials}
         </a>
 
-        <ul className="hidden items-center sm:flex">
+        {/* Only three links, so they stay visible on phones too, just tighter */}
+        <ul className="flex items-center">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-fg"
+                className="rounded-full px-2 py-1.5 text-[13px] text-muted transition-colors hover:bg-surface-2 hover:text-fg sm:px-3 sm:text-sm"
               >
                 {link.label}
               </a>
