@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
+/* Toggle-driven dark mode: next-themes sets class="dark" on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Greyscale palette — light */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f4f4f5;
+  --border: #e4e4e7;
+  --fg: #09090b;
+  --muted: #71717a;
+  --subtle: #a1a1aa;
+  /* Single slot for an accent later — greyscale for now */
+  --accent: #09090b;
+  --accent-fg: #fafafa;
+}
+
+/* Greyscale palette — dark */
+.dark {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #18181b;
+  --border: #27272a;
+  --fg: #ededed;
+  --muted: #a1a1aa;
+  --subtle: #52525b;
+  --accent: #fafafa;
+  --accent-fg: #0a0a0a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-anton);
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-screen-scroll: screen-scroll 16s ease-in-out infinite alternate;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Long phone screenshots drift from top to bottom (652px = phone screen height) */
+@keyframes screen-scroll {
+  0%,
+  12% {
+    transform: translateY(0);
+  }
+  88%,
+  100% {
+    transform: translateY(calc(-100% + 652px));
   }
 }
 
+/* Endless logo strip: the track holds two copies of the list, so -50% loops seamlessly */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pulse travelling along a flow-diagram connector: vertical on mobile, horizontal from md */
+.flow-pulse {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--fg);
+  transform: translate(-50%, -50%);
+  animation: flow-y 1.8s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .flow-pulse {
+    left: 0;
+    top: 50%;
+    animation-name: flow-x;
+  }
+}
+
+@keyframes flow-y {
+  0% { top: 0; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes flow-x {
+  0% { left: 0; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-pulse {
+    display: none;
+  }
+
+  .animate-screen-scroll,
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+html {
+  color-scheme: light;
+}
+
+html.intro-seen #intro {
+  display: none;
+}
+
+/* Fallback for in-page links when Lenis isn't running; Lenis handles them otherwise */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
 }
