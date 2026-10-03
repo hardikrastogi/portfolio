@@ -32,7 +32,7 @@ export const about = {
 } as const;
 
 // Intro shown on first visit:
-//   "greeting" → Hello · Namaste · Bonjour · Hola, then a curved curtain lifts
+//   "greeting" → Hello · Namaste · Bonjour, then a curved curtain lifts
 //   "morph"    → "HR" fades in at the centre, then flies into the navbar logo
 export const introStyle: "greeting" | "morph" = "greeting";
 

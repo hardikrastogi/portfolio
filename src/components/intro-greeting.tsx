@@ -4,11 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { INTRO_SEEN_KEY, markIntroLanded, startIntroFlight, useIntroLanded } from "@/lib/intro";
 
-const words = ["Hello", "Namaste", "Bonjour", "Hola"];
+const words = ["Hello", "Namaste", "Bonjour"];
 const ease = [0.76, 0, 0.24, 1] as const;
 
-// How long each word stays: the first lingers, the rest flash by, the last settles.
-const holdFor = (i: number) => (i === 0 ? 650 : i === words.length - 1 ? 450 : 160);
+// Every word stays on screen for the same time (ms)
+const HOLD_MS = 475;
+// …and fades in at the same speed (s)
+const FADE_IN_S = 0.2;
 
 // Greeting intro: words flash in the centre, then the curtain slides up with a curved
 // bottom edge that flattens as it leaves. Plays once per browser session; returning
@@ -49,12 +51,12 @@ export function IntroGreeting() {
       if (i < words.length - 1) {
         i += 1;
         setIndex(i);
-        id = setTimeout(next, holdFor(i));
+        id = setTimeout(next, HOLD_MS);
       } else {
         setLeaving(true);
       }
     };
-    id = setTimeout(next, holdFor(0));
+    id = setTimeout(next, HOLD_MS);
     return () => clearTimeout(id);
   }, []);
 
@@ -87,20 +89,23 @@ export function IntroGreeting() {
       onAnimationComplete={() => leaving && setGone(true)}
     >
       <div className="flex h-[100svh] items-center justify-center bg-[#0b0b0b]">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={words[index]}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            // Quick exit of its own: with mode="wait" a slow exit would swallow the next words
-            exit={{ opacity: 0, y: -8, transition: { duration: 0.05 } }}
-            transition={{ duration: index === 0 ? 0.4 : 0.06 }}
-            className="flex items-center gap-3 text-4xl font-medium tracking-tight text-[#ededed] md:text-6xl"
-          >
-            <span className="size-2.5 rounded-full bg-[#ededed] md:size-3" />
-            {words[index]}
-          </motion.p>
-        </AnimatePresence>
+        {/* The last word fades as the curtain lifts, so it isn't on screen longer than the others */}
+        <motion.div animate={{ opacity: leaving ? 0 : 1 }} transition={{ duration: 0.15 }}>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={words[index]}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              // Quick exit of its own: with mode="wait" a slow exit would swallow the next words
+              exit={{ opacity: 0, y: -8, transition: { duration: 0.05 } }}
+              transition={{ duration: FADE_IN_S }}
+              className="flex items-center gap-3 text-4xl font-medium tracking-tight text-[#ededed] md:text-6xl"
+            >
+              <span className="size-2.5 rounded-full bg-[#ededed] md:size-3" />
+              {words[index]}
+            </motion.p>
+          </AnimatePresence>
+        </motion.div>
       </div>
 
       {/* Curved bottom edge: bulges while moving, flattens as it exits */}
