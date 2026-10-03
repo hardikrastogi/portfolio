@@ -34,7 +34,7 @@ export const about = {
 // Intro shown on first visit:
 //   "greeting" → Hello · Namaste · Bonjour, then a curved curtain lifts
 //   "morph"    → "HR" fades in at the centre, then flies into the navbar logo
-export const introStyle: "greeting" | "morph" = "greeting";
+export const introStyle: "greeting" | "morph" = "morph";
 
 export const navLinks = [
   { label: "Work", href: "#work" },
