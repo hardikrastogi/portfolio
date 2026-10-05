@@ -24,7 +24,7 @@ export function MacWindow({ title, domain, image, screen }: Props) {
           <span className="size-3 rounded-full bg-[#febc2e]" />
           <span className="size-3 rounded-full bg-[#28c840]" />
         </div>
-        <div className="absolute left-1/2 flex max-w-[60%] -translate-x-1/2 items-center gap-1.5 truncate rounded-md bg-bg/60 px-3 py-1 text-xs text-muted">
+        <div className="absolute left-1/2 flex max-w-[min(60%,calc(100%-10rem))] -translate-x-1/2 items-center gap-1.5 truncate rounded-md bg-bg/60 px-3 py-1 text-xs text-muted">
           <svg viewBox="0 0 16 16" className="size-3 shrink-0" fill="currentColor" aria-hidden>
             <path d="M8 1a3 3 0 0 0-3 3v2H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1V4a3 3 0 0 0-3-3Zm-1.5 5V4a1.5 1.5 0 0 1 3 0v2h-3Z" />
           </svg>

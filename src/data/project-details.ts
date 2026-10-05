@@ -19,62 +19,6 @@ export type ProjectDetail = {
 };
 
 export const projectDetails: Record<string, ProjectDetail> = {
-  formora: {
-    image: { src: "/showcase/formora-desktop.v1.webp", width: 1920, height: 864 },
-    domain: "formora-web.vercel.app",
-    problem:
-      "Every product rebuilds the same forms by hand — fields, layout, validation and theming — and the rules on the client and the server slowly drift apart.",
-    solution:
-      "Formora describes a whole form as one JSON document. The renderer draws it, Zod validates it identically in the browser and on the server, and the schema version travels with every submission.",
-    flow: [
-      { label: "FormDefinition", detail: "One JSON document" },
-      { label: "Core", detail: "Zod schema + validation" },
-      { label: "React renderer", detail: "Layout, theme, fields" },
-      { label: "FormSubmission", detail: "Versioned answers" },
-    ],
-    features: [
-      "13 field types, with a plugin system for custom ones",
-      "The same validation on client and server, from one schema",
-      "Token-based theming with light and dark modes",
-      "Drag-and-drop visual builder and a live JSON playground",
-    ],
-    useCases: [
-      "Event registration and RSVP forms",
-      "Feedback, intake and application forms",
-      "A consistent form system inside a larger React product",
-    ],
-    stats: [
-      { value: "70+", label: "unit tests" },
-      { value: "50+", label: "end-to-end tests" },
-      { value: "13", label: "field types" },
-    ],
-  },
-  baxus: {
-    image: { src: "/showcase/baxus-desktop.v1.webp", width: 1236, height: 654 },
-    domain: "Chrome extension",
-    // DRAFT — confirm how matching works and the tech used
-    problem:
-      "Collectors browsing whisky and wine on retail sites have no quick way to tell whether the same bottle is cheaper on the BAXUS marketplace.",
-    solution:
-      "The extension reads the bottle details from the page you're on, matches them against BAXUS listings and shows the better price right in the browser — no tab-hopping.",
-    flow: [
-      { label: "Retail page", detail: "Product you're viewing" },
-      { label: "Content script", detail: "Scrapes name, size, ABV, price" },
-      { label: "Matcher", detail: "Normalises and finds the bottle" },
-      { label: "BAXUS", detail: "Price comparison popup" },
-    ],
-    features: [
-      "Works across popular whisky and wine retailers",
-      "Extracts bottle name, size and ABV from the page",
-      "Tolerant matching across naming differences",
-      "Shows the saving at a glance",
-    ],
-    useCases: [
-      "Checking for a better deal before buying",
-      "Comparing prices while casually browsing",
-      "Discovering bottles available on BAXUS",
-    ],
-  },
   sphere: {
     image: { src: "/showcase/sphere-desktop.v1.webp", width: 1920, height: 862 },
     problem:

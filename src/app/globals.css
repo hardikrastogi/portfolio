@@ -15,6 +15,8 @@
   /* Single slot for an accent later — greyscale for now */
   --accent: #09090b;
   --accent-fg: #fafafa;
+  /* Warm highlight used on the hero name */
+  --spark: #a0522d;
 }
 
 /* Greyscale palette — dark */
@@ -28,6 +30,7 @@
   --subtle: #52525b;
   --accent: #fafafa;
   --accent-fg: #0a0a0a;
+  --spark: #d2865a;
 }
 
 @theme inline {
@@ -43,20 +46,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-anton);
+  --font-name: var(--font-bricolage);
   --animate-marquee: marquee 60s linear infinite;
-  --animate-screen-scroll: screen-scroll 16s ease-in-out infinite alternate;
-}
-
-/* Long phone screenshots drift from top to bottom (652px = phone screen height) */
-@keyframes screen-scroll {
-  0%,
-  12% {
-    transform: translateY(0);
-  }
-  88%,
-  100% {
-    transform: translateY(calc(-100% + 652px));
-  }
 }
 
 /* Endless logo strip: the track holds two copies of the list, so -50% loops seamlessly */
@@ -104,7 +95,6 @@
     display: none;
   }
 
-  .animate-screen-scroll,
   .animate-marquee {
     animation: none;
   }
@@ -127,6 +117,14 @@ html.intro-seen #intro {
 
 html.dark {
   color-scheme: dark;
+}
+
+/* Theme switch: the new theme is revealed as a circle from the toggle (see theme-toggle.tsx),
+   so turn off the default cross-fade between the two snapshots */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 body {

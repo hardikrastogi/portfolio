@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, Geist, Geist_Mono } from "next/font/google";
+import { Anton, Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import { CursorGlow } from "@/components/cursor-glow";
 import { Intro } from "@/components/intro";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -20,6 +20,13 @@ const geistMono = Geist_Mono({
 const anton = Anton({
   variable: "--font-anton",
   weight: "400",
+  subsets: ["latin"],
+});
+
+// Variable grotesque for the hero name; its weight axis is animated per letter
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  axes: ["opsz"],
   subsets: ["latin"],
 });
 
@@ -51,7 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${bricolage.variable} h-full antialiased`}
     >
       <head>
         {/* Returning visitors (same session) skip the intro — hide it before first paint */}

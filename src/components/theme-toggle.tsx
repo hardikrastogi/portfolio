@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
+import { useRef, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 
 const subscribeNoop = () => () => {};
 
@@ -16,12 +17,47 @@ export function ThemeToggle() {
   );
 
   const isDark = resolvedTheme === "dark";
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // The new theme grows out of the button as a circle (View Transitions API).
+  // Falls back to an instant switch where unsupported or with reduced motion.
+  const toggle = () => {
+    const next = isDark ? "light" : "dark";
+    const button = buttonRef.current;
+    if (
+      !button ||
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setTheme(next);
+      return;
+    }
+
+    const { left, top, width, height } = button.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+    const transition = document.startViewTransition(() => {
+      // Swap the class ourselves so the "after" snapshot is ready immediately
+      document.documentElement.classList.toggle("dark", next === "dark");
+      flushSync(() => setTheme(next));
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: "cubic-bezier(0.65, 0, 0.35, 1)", pseudoElement: "::view-transition-new(root)" },
+      );
+    });
+  };
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       aria-label={!mounted ? "Toggle theme" : isDark ? "Switch to light mode" : "Switch to dark mode"}
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={toggle}
       className="relative grid size-10 place-items-center overflow-hidden rounded-full border border-border bg-surface text-fg transition-colors hover:bg-surface-2"
     >
       <AnimatePresence mode="wait" initial={false}>
